@@ -315,7 +315,17 @@
         const now = new Date();
         const hour = now.getHours();
         let targetDate = new Date(now);
-        if (hour >= 11) targetDate.setDate(targetDate.getDate() + 1);
+        
+        // 1. 截單邏輯：如果過了 11:00，就算明天
+        if (hour >= 11) {
+            targetDate.setDate(targetDate.getDate() + 1);
+        }
+
+        // 2. 【新增】避開週日邏輯：如果算出來是週日 (0)，就自動再加一天變成週一
+        if (targetDate.getDay() === 0) {
+            targetDate.setDate(targetDate.getDate() + 1);
+        }
+
         const y = targetDate.getFullYear();
         const m = String(targetDate.getMonth() + 1).padStart(2, '0');
         const d = String(targetDate.getDate()).padStart(2, '0');
@@ -496,3 +506,4 @@
 </script>
 </body>
 </html>
+
